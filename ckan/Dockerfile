@@ -19,3 +19,11 @@ RUN for d in $APP_DIR/patches/*; do \
             done ; \
         fi ; \
     done
+
+COPY ../src/ckanext-nfwf_theme ${APP_DIR}/ckanext-nfwf_theme
+
+RUN pip3 install -e ${APP_DIR}/ckanext-nfwf_theme
+
+COPY ../src/ckanext-nfwf_fields ${APP_DIR}/ckanext-nfwf_fields
+
+RUN pip3 install -e ${APP_DIR}/ckanext-nfwf_fields
