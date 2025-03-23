@@ -38,6 +38,8 @@ FROM ckan/ckan-dev:2.11
 # RUN pip3 install -e ${APP_DIR}/src_extensions/ckanext-nfwf_theme/
 # RUN pip3 install -e ${APP_DIR}/src_extensions/ckanext-nfwf_fields/
 
+# RUN pip install ckanext-oauth2
+
 # Copy custom initialization scripts
 COPY --chown=ckan-sys:ckan-sys docker-entrypoint.d/* /docker-entrypoint.d/
 
