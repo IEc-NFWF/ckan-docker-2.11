@@ -3,6 +3,18 @@ FROM ckan/ckan-base:2.11
 # Install any extensions needed by your CKAN instance
 # See Dockerfile.dev for more details and examples
 
+USER root
+# RUN apt-get update && apt-get upgrade && apt-get install -y openssh-client --fix-missing && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install -e 'git+https://github.com/IEc-NFWF/ckanext-oauth2.git@2.11#egg=ckanext-oauth2'
+# COPY nfwf-ckan-extensions-deploy-key /root/.ssh/nfwf-ckan-extensions-deploy-key
+# RUN chmod 600 /root/.ssh/nfwf-ckan-extensions-deploy-key
+RUN pip3 install -e 'git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@2.11#egg=ckanext-nfwf_fields&subdirectory=ckanext-nfwf_fields'
+#    pip3 install -r ${APP_DIR}/src/ckanext-nfwf_fields/requirements.txt
+RUN pip3 install -e 'git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@2.11#egg=ckanext-nfwf_theme&subdirectory=ckanext-nfwf_theme'
+#    pip3 install -r ${APP_DIR}/src/ckanext-nfwf_theme/requirements.txt
+
+
 # Copy custom initialization scripts
 COPY --chown=ckan-sys:ckan-sys docker-entrypoint.d/* /docker-entrypoint.d/
 
@@ -19,11 +31,3 @@ RUN for d in $APP_DIR/patches/*; do \
             done ; \
         fi ; \
     done
-
-COPY ../src/ckanext-nfwf_theme ${APP_DIR}/ckanext-nfwf_theme
-
-RUN pip3 install -e ${APP_DIR}/ckanext-nfwf_theme
-
-COPY ../src/ckanext-nfwf_fields ${APP_DIR}/ckanext-nfwf_fields
-
-RUN pip3 install -e ${APP_DIR}/ckanext-nfwf_fields
