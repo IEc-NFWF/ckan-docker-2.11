@@ -24,6 +24,11 @@ services:
     build:
       context: ckan/
       dockerfile: Dockerfile
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       args:
         - TZ=${TZ}
     networks:
