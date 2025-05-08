@@ -10,10 +10,9 @@ RUN pip3 install -e 'git+https://github.com/IEc-NFWF/ckanext-oauth2.git@2.11#egg
 # COPY nfwf-ckan-extensions-deploy-key /root/.ssh/nfwf-ckan-extensions-deploy-key
 # RUN chmod 600 /root/.ssh/nfwf-ckan-extensions-deploy-key
 RUN pip3 install -e 'git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@2.11#egg=ckanext-nfwf_fields&subdirectory=ckanext-nfwf_fields'
-#    pip3 install -r ${APP_DIR}/src/ckanext-nfwf_fields/requirements.txt
+RUN pip3 install -r ${APP_DIR}/src/ckanext-nfwf-fields/ckanext-nfwf_fields/requirements.txt
 RUN pip3 install -e 'git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@2.11#egg=ckanext-nfwf_theme&subdirectory=ckanext-nfwf_theme'
-#    pip3 install -r ${APP_DIR}/src/ckanext-nfwf_theme/requirements.txt
-
+RUN pip3 install -r ${APP_DIR}/src/ckanext-nfwf-theme/ckanext-nfwf_theme/requirements.txt
 
 # Copy custom initialization scripts
 COPY --chown=ckan-sys:ckan-sys docker-entrypoint.d/* /docker-entrypoint.d/
