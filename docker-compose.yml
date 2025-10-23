@@ -73,6 +73,7 @@ services:
       context: postgresql/
     networks:
       - dbnet
+      - postgres-superset-network
     environment:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
@@ -116,3 +117,5 @@ networks:
     internal: true
   redisnet:
     internal: true
+  postgres-superset-network:
+    external: true
