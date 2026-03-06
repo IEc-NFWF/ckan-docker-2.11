@@ -71,6 +71,7 @@ services:
     image: ckan/ckan-solr:${SOLR_IMAGE_VERSION}
     volumes:
       - solr_data:/var/solr
+      - ./solr/conf/managed-schema:/var/solr/data/ckan/conf/managed-schema:ro
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8983/solr/"]
