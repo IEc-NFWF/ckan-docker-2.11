@@ -176,6 +176,12 @@ attribute with the form `ckan-X.Y` -->
 
     <!-- Custom Fields -->
     <field name="nature_based" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="pipeline_stage" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="grant_cycle" type="string" indexed="true" stored="true" multiValued="false"/>
+    <field name="doc_type" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="metric" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="monitoring_stages" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="state_abbr_org" type="string" indexed="true" stored="true" multiValued="true"/>
 </fields>
 
 <uniqueKey>index_id</uniqueKey>
