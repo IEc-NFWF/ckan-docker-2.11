@@ -1,0 +1,16 @@
+Fixes an issue where markdown is not properly converted to plaintext
+https://github.com/ckan/ckan/issues/9162
+This has been fixed by CKAN and should be in the next stable release
+diff --git a/ckan/lib/helpers.py b/ckan/lib/helpers.py
+index 515f4739b..8a097e2c3 100644
+--- a/ckan/lib/helpers.py
++++ b/ckan/lib/helpers.py
+@@ -1320,7 +1320,7 @@ def markdown_extract(text: str,
+     will not be truncated.'''
+     if not text:
+         return ''
+-    plain = bleach_clean(markdown(text), strip=True)
++    plain = bleach_clean(markdown(text), tags=(), strip=True)
+     if not extract_length or len(plain) < extract_length:
+         return literal(plain)
+     return literal(
