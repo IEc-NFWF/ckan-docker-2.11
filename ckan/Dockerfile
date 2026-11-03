@@ -13,6 +13,10 @@ RUN pip3 install -e 'git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@2.
 RUN pip3 install -r ${APP_DIR}/src/ckanext-nfwf-fields/ckanext-nfwf_fields/requirements.txt
 RUN pip3 install -e 'git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@2.11#egg=ckanext-nfwf_theme&subdirectory=ckanext-nfwf_theme'
 RUN pip3 install -r ${APP_DIR}/src/ckanext-nfwf-theme/ckanext-nfwf_theme/requirements.txt
+# Owns the role and account-status model; ckanext-nfwf_fields imports its
+# vocabulary, so it must be installed even though only nfwf_fields draws the UI.
+RUN pip3 install -e 'git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@2.11#egg=ckanext-nfwf_permissions&subdirectory=ckanext-nfwf_permissions'
+RUN pip3 install -r ${APP_DIR}/src/ckanext-nfwf-permissions/ckanext-nfwf_permissions/requirements.txt
 
 # Copy custom initialization scripts
 COPY --chown=ckan-sys:ckan-sys docker-entrypoint.d/* /docker-entrypoint.d/
