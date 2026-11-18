@@ -6,16 +6,23 @@ FROM ckan/ckan-base:2.11
 USER root
 # RUN apt-get update && apt-get upgrade && apt-get install -y openssh-client --fix-missing && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install -e 'git+https://github.com/IEc-NFWF/ckanext-oauth2.git@2.11#egg=ckanext-oauth2'
+# Which branch, tag or commit of each repository to build. The defaults are the
+# production branches; a server picks something else in its .env (EXT_REF,
+# OAUTH2_REF), so this file stays identical on staging and production.
+# A commit ID rebuilds reliably; a branch name is cached until --no-cache.
+ARG OAUTH2_REF=2.11
+ARG EXT_REF=2.11
+
+RUN pip3 install -e "git+https://github.com/IEc-NFWF/ckanext-oauth2.git@${OAUTH2_REF}#egg=ckanext-oauth2"
 # COPY nfwf-ckan-extensions-deploy-key /root/.ssh/nfwf-ckan-extensions-deploy-key
 # RUN chmod 600 /root/.ssh/nfwf-ckan-extensions-deploy-key
-RUN pip3 install -e 'git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@2.11#egg=ckanext-nfwf_fields&subdirectory=ckanext-nfwf_fields'
+RUN pip3 install -e "git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@${EXT_REF}#egg=ckanext-nfwf_fields&subdirectory=ckanext-nfwf_fields"
 RUN pip3 install -r ${APP_DIR}/src/ckanext-nfwf-fields/ckanext-nfwf_fields/requirements.txt
-RUN pip3 install -e 'git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@2.11#egg=ckanext-nfwf_theme&subdirectory=ckanext-nfwf_theme'
+RUN pip3 install -e "git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@${EXT_REF}#egg=ckanext-nfwf_theme&subdirectory=ckanext-nfwf_theme"
 RUN pip3 install -r ${APP_DIR}/src/ckanext-nfwf-theme/ckanext-nfwf_theme/requirements.txt
 # Owns the role and account-status model; ckanext-nfwf_fields imports its
 # vocabulary, so it must be installed even though only nfwf_fields draws the UI.
-RUN pip3 install -e 'git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@2.11#egg=ckanext-nfwf_permissions&subdirectory=ckanext-nfwf_permissions'
+RUN pip3 install -e "git+https://github.com/IEc-NFWF/nfwf-ckan-extensions.git@${EXT_REF}#egg=ckanext-nfwf_permissions&subdirectory=ckanext-nfwf_permissions"
 RUN pip3 install -r ${APP_DIR}/src/ckanext-nfwf-permissions/ckanext-nfwf_permissions/requirements.txt
 
 # Copy custom initialization scripts

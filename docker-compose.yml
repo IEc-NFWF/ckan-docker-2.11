@@ -31,6 +31,8 @@ services:
       dockerfile: Dockerfile
       args:
         - TZ=${TZ}
+        - EXT_REF=${EXT_REF:-2.11}
+        - OAUTH2_REF=${OAUTH2_REF:-2.11}
     logging:
       driver: "json-file"
       options:
