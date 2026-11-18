@@ -11,6 +11,11 @@ services:
     build:
       context: nginx/
       dockerfile: Dockerfile
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     networks:
       - webnet
       - ckannet
@@ -61,6 +66,11 @@ services:
       - ckannet
       - dbnet
     image: ckan/ckan-base-datapusher:${DATAPUSHER_VERSION}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8800"]
@@ -71,6 +81,11 @@ services:
   db:
     build:
       context: postgresql/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     networks:
       - dbnet
       - postgres-superset-network
@@ -94,6 +109,13 @@ services:
     networks:
       - solrnet
     image: ckan/ckan-solr:${SOLR_IMAGE_VERSION}
+    environment:
+      - SOLR_LOG_LEVEL=WARN
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     volumes:
       - solr_data:/var/solr
       - ./solr/conf/managed-schema:/opt/solr/server/solr/configsets/ckan/conf/managed-schema:ro
@@ -103,6 +125,11 @@ services:
 
   redis:
     image: redis:${REDIS_VERSION}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     networks:
       - redisnet
     restart: unless-stopped
